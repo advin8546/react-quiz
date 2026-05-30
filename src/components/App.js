@@ -11,7 +11,7 @@ import FinishedScreen from "./FinishedScreen";
 import Footer from "./Footer";
 import Timer from "./Timer";
 
-const SECS_PER_SECOND = 30;
+const SECS_PER_QUESTION = 30;
 
 const initialState = {
   questions: [],
@@ -21,7 +21,7 @@ const initialState = {
   index: 0,
   answer: null,
   points: 0,
-  highscore: 0,
+  highscore: Number(localStorage.getItem("reactQuizHighscore")) || 0,
   secondsRemaining: null,
 };
 
@@ -44,9 +44,9 @@ function reducer(state, action) {
       return {
         ...state,
         status: "active",
-        secondsRemaining: state.questions.length * SECS_PER_SECOND,
+        secondsRemaining: state.questions.length * SECS_PER_QUESTION,
       };
-    case "newAnswer":
+    case "newAnswer": {
       const question = state.questions.at(state.index);
       return {
         ...state,
@@ -56,6 +56,7 @@ function reducer(state, action) {
             ? state.points + question.points
             : state.points,
       };
+    }
     case "nextQuestion":
       return {
         ...state,
@@ -72,19 +73,17 @@ function reducer(state, action) {
     case "Restart":
       return {
         ...state,
-        highscore: state.highscore,
-        // 'loading','error','ready','active','finished'
         status: "ready",
         index: 0,
         answer: null,
         points: 0,
-        secondsRemaining: 10,
+        secondsRemaining: null,
       };
     case "tick":
       return {
         ...state,
-        secondsRemaining: state.secondsRemaining - 1,
-        status: state.secondsRemaining === 0 ? "finished" : state.status,
+        secondsRemaining: Math.max(0, state.secondsRemaining - 1),
+        status: state.secondsRemaining === 1 ? "finished" : state.status,
       };
 
     default:
@@ -105,13 +104,23 @@ export default function App() {
   );
 
   useEffect(function () {
-    fetch("/questions.json")
-      .then((res) => res.json())
+    fetch(`${process.env.PUBLIC_URL}/questions.json`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Questions could not be loaded");
+        return res.json();
+      })
       .then((data) =>
         dispatch({ type: "dataReceived", payload: data.questions })
       )
-      .catch((err) => dispatch({ type: "dataFailed" }));
+      .catch(() => dispatch({ type: "dataFailed" }));
   }, []);
+
+  useEffect(
+    function () {
+      localStorage.setItem("reactQuizHighscore", String(highscore));
+    },
+    [highscore]
+  );
 
   return (
     <div className="app">
