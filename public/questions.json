@@ -30,24 +30,24 @@
         "From parents to children",
         "From children to parents",
         "Both ways",
-        "The developers decides"
+        "The developer decides"
       ],
       "correctOption": 0,
       "points": 10
     },
     {
-      "question": "How to pass data into a child component?",
+      "question": "How do we pass data into a child component?",
       "options": ["State", "Props", "PropTypes", "Parameters"],
       "correctOption": 1,
       "points": 10
     },
     {
-      "question": "When to use derived state?",
+      "question": "When should derived state be used?",
       "options": [
         "Whenever the state should not trigger a re-render",
         "Whenever the state can be synchronized with an effect",
         "Whenever the state should be accessible to all components",
-        "Whenever the state can be computed from another state variable"
+        "Whenever the value can be computed from existing state or props"
       ],
       "correctOption": 3,
       "points": 30
@@ -64,7 +64,7 @@
       "points": 20
     },
     {
-      "question": "When do we directly \"touch\" the DOM in React?",
+      "question": "When do we directly touch the DOM in React?",
       "options": [
         "When we need to listen to an event",
         "When we need to change the UI",
@@ -97,7 +97,7 @@
       "points": 30
     },
     {
-      "question": "Which hook to use for an API request on the component's initial render?",
+      "question": "Which hook is used for an API request on the component's initial render?",
       "options": ["useState", "useEffect", "useRef", "useReducer"],
       "correctOption": 1,
       "points": 10
@@ -119,13 +119,13 @@
         "True",
         "It depends on the dependency array",
         "False",
-        "In depends on the code in the effect"
+        "It depends on the code in the effect"
       ],
       "correctOption": 0,
       "points": 30
     },
     {
-      "question": "When will an effect run if it doesn't have a dependency array?",
+      "question": "When will an effect run if it does not have a dependency array?",
       "options": [
         "Only when the component mounts",
         "Only when the component unmounts",
